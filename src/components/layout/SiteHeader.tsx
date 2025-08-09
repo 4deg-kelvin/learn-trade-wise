@@ -13,6 +13,8 @@ const SiteHeader = () => {
             `text-sm ${isActive ? 'text-primary' : 'text-muted-foreground'} hover:text-foreground`}>Home</NavLink>
           <NavLink to="/tutorials" className={({isActive}) =>
             `text-sm ${isActive ? 'text-primary' : 'text-muted-foreground'} hover:text-foreground`}>Tutorials</NavLink>
+          <NavLink to="/indices" className={({isActive}) =>
+            `text-sm ${isActive ? 'text-primary' : 'text-muted-foreground'} hover:text-foreground`}>Indices 101</NavLink>
           <NavLink to="/policy" className={({isActive}) =>
             `text-sm ${isActive ? 'text-primary' : 'text-muted-foreground'} hover:text-foreground`}>Crypto Policy</NavLink>
           <NavLink to="/math" className={({isActive}) =>
