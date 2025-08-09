@@ -46,7 +46,7 @@ const Index = () => {
       <section className="container mx-auto py-12" aria-labelledby="markets">
         <h2 id="markets" className="text-2xl font-semibold mb-4">Select your market</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {["Bitcoin", "Ethereum", "Stocks", "Forex"].map((m) => (
+          {["Bitcoin", "Ethereum", "Stocks", "Forex", "NASDAQ 100", "S&P 500", "Dow Jones", "Russell 2000"].map((m) => (
             <button
               key={m}
               onClick={() => navigate('/dashboard', { state: { market: m } })}
@@ -57,6 +57,29 @@ const Index = () => {
             </button>
           ))}
         </div>
+      </section>
+
+      <section className="container mx-auto py-12" aria-labelledby="indices-diff">
+        <h2 id="indices-diff" className="text-2xl font-semibold mb-4">How major indices differ</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          <article className="rounded-lg border p-4 card-elevated">
+            <h3 className="font-medium">NASDAQ 100</h3>
+            <p className="text-sm text-muted-foreground">Tech-heavy, growth-tilted, market-cap weighted; excludes most financials, often more volatile in risk-on/off moves.</p>
+          </article>
+          <article className="rounded-lg border p-4 card-elevated">
+            <h3 className="font-medium">S&P 500</h3>
+            <p className="text-sm text-muted-foreground">Broad U.S. large-cap benchmark (500 companies), market-cap weighted; commonly used as the “market” proxy.</p>
+          </article>
+          <article className="rounded-lg border p-4 card-elevated">
+            <h3 className="font-medium">Dow Jones Industrial Average</h3>
+            <p className="text-sm text-muted-foreground">30 blue-chip companies, price-weighted—higher-priced stocks have outsized impact; older, more concentrated mix.</p>
+          </article>
+          <article className="rounded-lg border p-4 card-elevated">
+            <h3 className="font-medium">Russell 2000</h3>
+            <p className="text-sm text-muted-foreground">Small-cap focus; higher volatility, useful gauge of market breadth and risk appetite beyond mega-caps.</p>
+          </article>
+        </div>
+        <p className="text-xs text-muted-foreground mt-3">Different weighting methods and constituents make indices behave differently across cycles.</p>
       </section>
 
       <section className="container mx-auto py-12" aria-labelledby="fundamentals">

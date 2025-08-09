@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const markets = ["Bitcoin", "Ethereum", "Stocks", "Forex"] as const;
+const markets = ["Bitcoin", "Ethereum", "Stocks", "Forex", "NASDAQ 100", "S&P 500", "Dow Jones", "Russell 2000"] as const;
 const timeframes = ["1h", "4h", "1d"] as const;
 
 type Market = typeof markets[number];
