@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 
-// Polygon.io News API via Supabase Edge Function
-// High-quality financial news with proper API key handling
+// CoinStats News API - Public, no API key required
+// Using CoinStats as primary source since it doesn't require API keys
 
 type NewsItem = {
   id: string;
@@ -16,30 +16,21 @@ type NewsItem = {
   publishedAt?: string; // ISO
 };
 
-const fetchPolygonNews = async (): Promise<NewsItem[]> => {
-  try {
-    const res = await fetch("/api/polygon-news");
-    if (!res.ok) throw new Error("Failed to fetch news");
-    const data = await res.json();
-    return (data?.news ?? []) as NewsItem[];
-  } catch (error) {
-    console.error("Polygon news fetch failed, falling back to CoinStats:", error);
-    // Fallback to CoinStats if Polygon fails
-    const res = await fetch(
-      "https://api.coinstats.app/public/v1/news?skip=0&limit=10"
-    );
-    if (!res.ok) throw new Error("Failed to fetch fallback news");
-    const data = await res.json();
-    return (data?.news ?? []).map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      source: item.source,
-      link: item.link,
-      imgURL: item.imgURL,
-      description: item.description,
-      publishedAt: item.publishedAt || new Date(item.feedDate || item.date).toISOString(),
-    })) as NewsItem[];
-  }
+const fetchCoinStatsNews = async (): Promise<NewsItem[]> => {
+  const res = await fetch(
+    "https://api.coinstats.app/public/v1/news?skip=0&limit=10"
+  );
+  if (!res.ok) throw new Error("Failed to fetch news");
+  const data = await res.json();
+  return (data?.news ?? []).map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    source: item.source,
+    link: item.link,
+    imgURL: item.imgURL,
+    description: item.description,
+    publishedAt: item.publishedAt || new Date(item.feedDate || item.date).toISOString(),
+  })) as NewsItem[];
 };
 
 const timeFromNow = (ts?: number | string) => {
@@ -57,8 +48,8 @@ const timeFromNow = (ts?: number | string) => {
 
 const LiveNewsWidget = () => {
   const { data, isLoading, isError, refetch, isFetching } = useQuery({
-    queryKey: ["polygon-news"],
-    queryFn: fetchPolygonNews,
+    queryKey: ["coinstats-news"],
+    queryFn: fetchCoinStatsNews,
     staleTime: 60_000,
     refetchOnWindowFocus: false,
   });
@@ -136,7 +127,7 @@ const LiveNewsWidget = () => {
         <Button variant="outline">Connect Discord announcements</Button>
       </div>
       <p className="text-xs text-muted-foreground mt-2">
-        Primary source: Polygon.io via Supabase Edge Function. Falls back to CoinStats if unavailable.
+        Source: CoinStats public API. For premium news sources like Polygon.io, connect to Supabase for secure API key storage.
       </p>
     </section>
   );
