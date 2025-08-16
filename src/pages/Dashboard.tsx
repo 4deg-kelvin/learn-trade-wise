@@ -3,8 +3,17 @@ import SEO from "@/components/seo/SEO";
 import ConfluenceGenerator from "@/components/widgets/ConfluenceGenerator";
 import LiveNewsWidget from "@/components/widgets/LiveNewsWidget";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const data = Array.from({ length: 24 }).map((_, i) => ({ t: `${i}h`, p: 100 + Math.sin(i/3) * 8 + i * 0.2 }));
+const fetchNasdaqData = async () => {
+  const response = await fetch('/api/nasdaq-data');
+  if (!response.ok) {
+    throw new Error('Failed to fetch NASDAQ data');
+  }
+  const result = await response.json();
+  return result.data || [];
+};
 
 const Dashboard = () => {
   const location = useLocation() as any;
@@ -12,6 +21,15 @@ const Dashboard = () => {
   const profile = (() => {
     try { return JSON.parse(localStorage.getItem('tw_profile') || '{}'); } catch { return {}; }
   })();
+
+  const { data: nasdaqData, isLoading: isLoadingNasdaq, isError } = useQuery({
+    queryKey: ['nasdaq-data'],
+    queryFn: fetchNasdaqData,
+    staleTime: 60_000,
+    refetchOnWindowFocus: false,
+  });
+
+  const chartData = nasdaqData || [];
 
   return (
     <main className="container mx-auto py-8">
@@ -23,16 +41,30 @@ const Dashboard = () => {
 
       <section className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 rounded-lg border p-4 card-elevated">
-          <h2 className="text-xl font-semibold mb-3">Price snapshot</h2>
+          <h2 className="text-xl font-semibold mb-3">NASDAQ Price (QQQ) - Live Data</h2>
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data}>
-                <XAxis dataKey="t" hide />
-                <YAxis hide domain={[80, 140]} />
-                <Tooltip formatter={(v: number) => v.toFixed(2)} />
-                <Line type="monotone" dataKey="p" stroke="hsl(var(--brand-1))" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
+            {isLoadingNasdaq ? (
+              <div className="space-y-2">
+                <Skeleton className="h-6 w-48" />
+                <Skeleton className="h-48 w-full" />
+              </div>
+            ) : isError ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground">Failed to load NASDAQ data</p>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <XAxis dataKey="t" hide />
+                  <YAxis hide />
+                  <Tooltip 
+                    formatter={(value: number) => [`$${value.toFixed(2)}`, 'Price']}
+                    labelFormatter={(label) => `Time: ${label}`}
+                  />
+                  <Line type="monotone" dataKey="p" stroke="hsl(var(--brand-1))" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
         <LiveNewsWidget />
