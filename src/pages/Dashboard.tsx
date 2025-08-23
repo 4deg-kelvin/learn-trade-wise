@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import SEO from "@/components/seo/SEO";
 import ConfluenceGenerator from "@/components/widgets/ConfluenceGenerator";
 import LiveNewsWidget from "@/components/widgets/LiveNewsWidget";
+import CryptoPricesWidget from "@/components/widgets/CryptoPricesWidget";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -121,6 +122,10 @@ const Dashboard = () => {
           </div>
         </div>
         <LiveNewsWidget />
+      </section>
+
+      <section className="mt-6">
+        <CryptoPricesWidget />
       </section>
 
       <div className="mt-6">
