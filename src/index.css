@@ -60,6 +60,10 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(var(--brand-1)) 0%, hsl(var(--brand-2)) 100%);
     --shadow-elegant: 0 12px 30px -10px hsl(var(--brand-1) / 0.25);
     --shadow-glow: 0 0 40px hsl(var(--brand-2) / 0.35);
+
+    /* Chart colors for candlestick charts */
+    --chart-1: 142 76% 36%;  /* Green for up candles */
+    --chart-2: 0 84% 60%;    /* Red for down candles */
   }
 
   .dark {
@@ -98,6 +102,10 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Chart colors for candlestick charts (dark mode) */
+    --chart-1: 142 76% 46%;  /* Brighter green for dark mode */
+    --chart-2: 0 84% 70%;    /* Brighter red for dark mode */
   }
 }
 

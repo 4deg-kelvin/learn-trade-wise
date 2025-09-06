@@ -12,6 +12,7 @@ import Tutorials from "./pages/Tutorials";
 import Policy from "./pages/Policy";
 import MathPage from "./pages/Math";
 import Indices from "./pages/Indices";
+import CandlestickCharts from "./pages/CandlestickCharts";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/policy" element={<Policy />} />
             <Route path="/math" element={<MathPage />} />
             <Route path="/indices" element={<Indices />} />
+            <Route path="/candlestick-charts" element={<CandlestickCharts />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

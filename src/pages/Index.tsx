@@ -98,6 +98,19 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="container mx-auto py-12" aria-labelledby="candlestick-charts">
+        <h2 id="candlestick-charts" className="text-2xl font-semibold mb-4">Professional Charting Tools</h2>
+        <div className="rounded-lg border p-6 card-elevated text-center">
+          <h3 className="text-xl font-medium mb-3">Crypto Candlestick Charts</h3>
+          <p className="text-muted-foreground mb-4">
+            Analyze cryptocurrency price movements with professional candlestick charts featuring multiple timeframes from 1 minute to 1 year.
+          </p>
+          <Button onClick={() => navigate('/candlestick-charts')} className="bg-primary text-primary-foreground hover:bg-primary/90">
+            View Candlestick Charts
+          </Button>
+        </div>
+      </section>
+
       <section className="container mx-auto py-12">
         <LiveNewsWidget />
       </section>
